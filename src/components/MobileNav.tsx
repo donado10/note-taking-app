@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,6 +8,7 @@ import IconSearch from "@/assets/images/icon-search.svg";
 import IconArchive from "@/assets/images/icon-archive.svg";
 import IconTag from "@/assets/images/icon-tag.svg";
 import IconSetting from "@/assets/images/icon-settings.svg";
+import { usePathname } from "next/navigation";
 
 const linkNav = [
   {
@@ -36,12 +39,21 @@ const linkNav = [
 ];
 
 const MobileNav = () => {
+  const location = usePathname();
+  console.log(location);
+
   return (
-    <div className="flex w-4/5 items-center justify-between gap-4 py-4">
+    <div className="flex w-4/5 items-center justify-between gap-4 px-2 py-4">
       {linkNav.map((link, i) => {
         return (
-          <Link key={i} href={link.nav} className="">
-            <div>{link.logo}</div>
+          <Link
+            key={i}
+            href={link.nav}
+            className={`flex w-full items-center justify-center ${location === link.nav ? "bg-notes-blue-third px-2" : ""}`}
+          >
+            <div className="flex w-3/4 items-center justify-center py-1">
+              {link.logo}
+            </div>
           </Link>
         );
       })}
