@@ -33,6 +33,11 @@ export default {
         "notes-sourceRegular": "var(--font-source-regular)",
         "notes-sourceSemiBold": "var(--font-source-semi-bold)",
       },
+      screens: {
+        xs: "0px",
+        md: "768px",
+        xl: "1060px",
+      },
     },
   },
   plugins: [],

@@ -9,6 +9,7 @@ import IconArchive from "@/assets/images/icon-archive.svg";
 import IconTag from "@/assets/images/icon-tag.svg";
 import IconSetting from "@/assets/images/icon-settings.svg";
 import { usePathname } from "next/navigation";
+import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
 
 const linkNav = [
   {
@@ -32,7 +33,7 @@ const linkNav = [
     logo: <Image src={IconTag} alt="" />,
   },
   {
-    name: "Setting",
+    name: "Settings",
     nav: "/settings",
     logo: <Image src={IconSetting} alt="" />,
   },
@@ -40,7 +41,7 @@ const linkNav = [
 
 const MobileNav = () => {
   const location = usePathname();
-  console.log(location);
+  const Small = useMediaQuery(EMediaQuery.SMALL);
 
   return (
     <div className="flex w-4/5 items-center justify-between gap-4 px-2 py-4">
@@ -51,8 +52,9 @@ const MobileNav = () => {
             href={link.nav}
             className={`flex w-full items-center justify-center ${location === link.nav ? "bg-notes-blue-third px-2" : ""}`}
           >
-            <div className="flex w-3/4 items-center justify-center py-1">
+            <div className="flex w-3/4 items-center justify-center py-1 md:flex-col md:gap-1">
               {link.logo}
+              {Small && <h2 className="text-xs">{link.name}</h2>}
             </div>
           </Link>
         );
