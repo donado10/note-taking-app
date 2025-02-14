@@ -16,15 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fonts} bg-notes-blue-third text-black`}>
-        <header className="p-4">
-          <Logo />
-        </header>
-        <main>{children}</main>
-        <nav className="fixed bottom-0 left-0 flex w-screen items-center justify-center">
-          <MobileNav />
-        </nav>
-      </body>
+      <body className={`${fonts} text-black`}>{children}</body>
     </html>
   );
 }
