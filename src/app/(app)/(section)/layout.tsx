@@ -1,17 +1,19 @@
-import { NotesNavigation } from "@/components/NotesNavigation";
-import React, { ReactNode } from "react";
+import { NotesNavigationContainer } from "@/components/actions";
+import React, { ReactNode, Suspense } from "react";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-full">
+    <>
       <div className="xl:hidden">{children}</div>
-      <div className="h-full xs:hidden xl:block">
-        <div className="h-full w-1/4 border-r-[1px] p-4">
-          <NotesNavigation />
+      <div className="h-full overflow-y-scroll xs:hidden xl:block">
+        <div className="h-full w-1/4 overflow-y-scroll border-r-[1px] p-4">
+          <Suspense fallback="loading">
+            <NotesNavigationContainer />
+          </Suspense>
         </div>
         {children}
       </div>
-    </div>
+    </>
   );
 };
 
