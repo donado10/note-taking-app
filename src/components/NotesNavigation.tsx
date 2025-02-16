@@ -1,6 +1,6 @@
 import React from "react";
 
-export const NotesNavMobile = () => {
+export const NotesNavigation = () => {
   return (
     <div className="flex flex-col gap-2 border-b-[1px] p-4">
       <h2 className="font-notes-interSemiBold">

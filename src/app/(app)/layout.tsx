@@ -22,8 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fonts} text-black`}>
-        <div className="min-h-screen w-full bg-notes-blue-third xl:hidden">
+      <body className={`${fonts} min-h-screen text-black`}>
+        <div className="h-full w-full bg-notes-blue-third xl:hidden">
           <header className="p-4">
             <Logo />
           </header>
@@ -36,11 +36,11 @@ export default function RootLayout({
             <MobileNav />
           </nav>
         </div>
-        <div className="min-h-screen bg-white xs:hidden xl:flex">
-          <aside className="w-1/6 border-r-[1px] p-2">
+        <div className="h-full bg-white xs:hidden xl:flex">
+          <aside className="min-h-screen w-1/6 border-r-[1px] p-2">
             <DesktopNav />
           </aside>
-          <main className="w-5/6">
+          <main className="flex w-5/6 flex-col">
             <header className="flex justify-between border-b-[1px] p-5 px-8">
               <TitlePage />
               <div className="flex items-center gap-8">
