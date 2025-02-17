@@ -20,7 +20,6 @@ const TitlePageMain = ({ location }: { location: string[] }) => {
 };
 
 const TitlePageTags = ({ location }: { location: string[] }) => {
-  console.log(location);
   return (
     <h1 className="gap-2 font-notes-interBold text-2xl">
       <span className="text-gray-500">Notes Tagged:</span>{" "}

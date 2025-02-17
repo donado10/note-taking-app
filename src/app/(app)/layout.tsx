@@ -37,11 +37,11 @@ export default function RootLayout({
           </nav>
         </div>
         <div className="h-screen bg-white xs:hidden xl:flex">
-          <aside className="min-h-screen w-1/6 border-r-[1px] p-2">
+          <aside className="min-h-screen w-1/6 overflow-y-scroll border-r-[1px] p-2">
             <DesktopNav />
           </aside>
           <main className="flex w-5/6 flex-col">
-            <header className="h-1/7 flex items-center justify-between border-b-[1px] p-5 px-8">
+            <header className="flex h-[13%] items-center justify-between border-b-[1px] p-5 px-8">
               <TitlePage />
               <div className="flex items-center gap-8">
                 <div className="flex h-10 w-72 items-center justify-center gap-2 rounded-lg border-[1px] p-2">
@@ -61,7 +61,7 @@ export default function RootLayout({
                 </div>
               </div>
             </header>
-            <div className="h-6/7 overflow-hidden">{children}</div>
+            <div className="h-[87%] w-full overflow-hidden">{children}</div>
           </main>
         </div>
       </body>

@@ -18,7 +18,7 @@ export const getData = async () => {
   return data.notes;
 };
 
-export const NotesNavigationContainer = async () => {
+export const NotesHandler = async () => {
   const headerList = headers();
   const pathname = (await headerList).get("x-current-path")?.split("/");
 
@@ -35,4 +35,11 @@ export const NotesNavigationContainer = async () => {
   };
 
   return filterData(data);
+};
+
+export const getTags = async () => {
+  const data = (await getData()) as INote[];
+
+  const tagsRaw = data.map((d) => d.tags);
+  return tagsRaw.flat();
 };

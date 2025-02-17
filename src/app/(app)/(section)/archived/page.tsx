@@ -1,7 +1,14 @@
-import { PageLayout } from "@/components/Layouts";
-import TitlePage from "@/components/TitlePage";
-import Image from "next/image";
+import MobileNavigationContainer from "@/components/MobileNavigationContainer";
 
-export default function ArchivePage() {
-  return <PageLayout>""</PageLayout>;
+export default function ArchivedPage() {
+  return (
+    <>
+      {
+        <div className="xl:hidden">
+          <MobileNavigationContainer />
+        </div>
+      }
+      {<div className="xs:hidden xl:block"></div>}
+    </>
+  );
 }
