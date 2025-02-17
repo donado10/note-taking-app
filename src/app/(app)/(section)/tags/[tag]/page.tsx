@@ -1,11 +1,14 @@
-import { PageLayout } from "@/components/Layouts";
+import MobileNavigationContainer from "@/components/MobileNavigationContainer";
 
-export default async function TagsPage({
-  params,
-}: {
-  params: Promise<{ tag: string }>;
-}) {
-  const tag = (await params).tag;
-
-  return <PageLayout>{""}</PageLayout>;
+export default function TagPage() {
+  return (
+    <>
+      {
+        <div className="xl:hidden">
+          <MobileNavigationContainer />
+        </div>
+      }
+      {<div className="xs:hidden xl:block"></div>}
+    </>
+  );
 }

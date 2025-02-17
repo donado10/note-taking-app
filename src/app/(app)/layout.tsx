@@ -37,7 +37,7 @@ export default function RootLayout({
           </nav>
         </div>
         <div className="h-screen bg-white xs:hidden xl:flex">
-          <aside className="min-h-screen w-1/6 overflow-y-scroll border-r-[1px] p-2">
+          <aside className="min-h-screen w-1/6 overflow-hidden border-r-[1px] p-2">
             <DesktopNav />
           </aside>
           <main className="flex w-5/6 flex-col">

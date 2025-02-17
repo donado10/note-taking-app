@@ -24,6 +24,8 @@ export const NotesHandler = async () => {
 
   const data = (await getData()) as INote[];
 
+  console.log(pathname);
+
   const filterData = (data: INote[]) => {
     if (pathname && pathname[1] === "home") {
       return data;
@@ -31,6 +33,12 @@ export const NotesHandler = async () => {
     if (pathname && pathname[1] === "archived") {
       return data.filter((d) => d.isArchived);
     }
+    if (pathname && pathname[1] === "tags") {
+      return data.filter((d) =>
+        d.tags.some((tag) => tag.toLowerCase() === pathname[2]),
+      );
+    }
+
     return data;
   };
 

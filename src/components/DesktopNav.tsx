@@ -50,12 +50,12 @@ const DesktopNav = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      <div className="pb-8 pl-4 pt-4">
+    <div className="flex h-full flex-col">
+      <div className="h-[10%] pb-8 pl-4 pt-4">
         <Logo />
       </div>
-      <nav>
-        <ul className="mb-4 flex flex-col gap-2 border-b-[1px] p-2">
+      <nav className="h-[90%]">
+        <ul className="mb-4 flex h-1/5 flex-col gap-2 border-b-[1px] p-2">
           {linkNav.map((link, i) => {
             return (
               <li key={i}>
@@ -77,9 +77,9 @@ const DesktopNav = () => {
             );
           })}
         </ul>
-        <div>
+        <div className="h-4/5">
           <h1 className="mb-4 text-base text-gray-400">Tags</h1>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
             {tagNav.map((tag, i) => {
               return (
                 <li key={i}>
