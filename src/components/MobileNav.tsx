@@ -14,7 +14,7 @@ import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
 const linkNav = [
   {
     name: "Home",
-    nav: "/",
+    nav: "/home",
     logo: <Image src={IconHome} alt="" />,
   },
   {

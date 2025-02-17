@@ -5,7 +5,7 @@ import React from "react";
 
 const TitlePageMain = ({ location }: { location: string[] }) => {
   const mapLocation = new Map<string, string>([
-    ["", "All Notes"],
+    ["home", "All Notes"],
     ["archived", "Archived"],
     ["settings", "Settings"],
     ["tags", "Tags"],
@@ -20,6 +20,7 @@ const TitlePageMain = ({ location }: { location: string[] }) => {
 };
 
 const TitlePageTags = ({ location }: { location: string[] }) => {
+  console.log(location);
   return (
     <h1 className="gap-2 font-notes-interBold text-2xl">
       <span className="text-gray-500">Notes Tagged:</span>{" "}

@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 const linkNav = [
   {
     name: "All Notes",
-    nav: "/",
+    nav: "/home",
     logo: <Image src={IconHome} alt="" />,
   },
   {

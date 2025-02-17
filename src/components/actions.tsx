@@ -1,3 +1,5 @@
+"use server";
+
 import { NotesNavigation } from "./NotesNavigation";
 import { headers } from "next/headers";
 
@@ -17,21 +19,13 @@ export const getData = async () => {
 };
 
 export const NotesNavigationContainer = async () => {
-  const mapLocation = new Map<String, String>([
-    ["", "All Notes"],
-    ["archived", "Archived"],
-    ["settings", "Settings"],
-    ["tags", "Tags"],
-    ["search", "Search"],
-  ]);
   const headerList = headers();
   const pathname = (await headerList).get("x-current-path")?.split("/");
 
   const data = (await getData()) as INote[];
 
-  const filterData = () => {
-    console.log(pathname);
-    if (pathname && pathname[1] === "") {
+  const filterData = (data: INote[]) => {
+    if (pathname && pathname[1] === "home") {
       return data;
     }
     if (pathname && pathname[1] === "archived") {
@@ -40,9 +34,5 @@ export const NotesNavigationContainer = async () => {
     return data;
   };
 
-  return (
-    <>
-      <NotesNavigation data={filterData()} />
-    </>
-  );
+  return filterData(data);
 };
