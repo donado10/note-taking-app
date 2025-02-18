@@ -6,12 +6,12 @@ import Image from "next/image";
 import IconHome from "@/assets/images/icon-home.svg";
 import IconSearch from "@/assets/images/icon-search.svg";
 import IconArchive from "@/assets/images/icon-archive.svg";
-import IconTag from "@/assets/images/icon-tag.svg";
 import { IoIosArrowForward } from "react-icons/io";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getTags } from "./actions";
+import TagsNavigation from "./TagsNavigation";
 
 const linkNav = [
   {
@@ -26,28 +26,8 @@ const linkNav = [
   },
 ];
 
-const tagNav = [
-  {
-    name: "Cooking",
-    nav: "cooking",
-  },
-  {
-    name: "Fitness",
-    nav: "fitness",
-  },
-];
-
 const DesktopNav = () => {
   const location = usePathname();
-  const [tagNav, setTagNav] = useState<string[]>([]);
-
-  useEffect(() => {
-    const tagHandler = async () => {
-      const tags = await getTags();
-      setTagNav(Array.from(new Set(tags)));
-    };
-    tagHandler();
-  }, []);
 
   return (
     <div className="flex h-full flex-col">
@@ -80,26 +60,7 @@ const DesktopNav = () => {
         <div className="h-4/5">
           <h1 className="mb-4 text-base text-gray-400">Tags</h1>
           <ul className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
-            {tagNav.map((tag, i) => {
-              return (
-                <li key={i}>
-                  <Link
-                    href={`/tags/${tag.toLowerCase()}`}
-                    className={`flex w-full items-center justify-between rounded-md px-1 py-2 hover:bg-notes-blue-third ${location.split("/")[2] === tag.toLowerCase() ? "bg-notes-blue-third" : ""}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <Image src={IconTag} alt="" />
-                      <span>{tag}</span>
-                    </div>
-                    {location.split("/")[2] === tag.toLowerCase() && (
-                      <div>
-                        <IoIosArrowForward />
-                      </div>
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
+            <TagsNavigation />
           </ul>
         </div>
       </nav>

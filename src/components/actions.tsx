@@ -24,8 +24,6 @@ export const NotesHandler = async () => {
 
   const data = (await getData()) as INote[];
 
-  console.log(pathname);
-
   const filterData = (data: INote[]) => {
     if (pathname && pathname[1] === "home") {
       return data;
