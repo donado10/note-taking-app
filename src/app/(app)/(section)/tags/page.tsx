@@ -1,7 +1,7 @@
 import { PageLayout } from "@/components/Layouts";
 import TagsNavigation, {
   TagsNavigationMobile,
-} from "@/components/TagsNavigation";
+} from "@/components/navigation/TagsNavigation";
 import TitlePage from "@/components/TitlePage";
 import Image from "next/image";
 

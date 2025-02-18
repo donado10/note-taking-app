@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { getTags } from "./actions";
+import { getTags } from "@/app/actions";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import IconTag from "@/assets/images/icon-tag.svg";

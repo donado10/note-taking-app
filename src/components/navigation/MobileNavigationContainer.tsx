@@ -1,7 +1,7 @@
 "use server";
 
-import { NotesHandler } from "@/components/actions";
-import { NotesNavigation } from "@/components/NotesNavigation";
+import { NotesHandler } from "@/app/actions";
+import { NotesNavigation } from "@/components/navigation/NotesNavigation";
 import React from "react";
 
 const MobileNavigationContainer = async () => {

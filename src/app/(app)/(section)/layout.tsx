@@ -1,4 +1,4 @@
-import { NotesHandler } from "@/components/actions";
+import { NotesHandler } from "@/app/actions";
 import React, { ReactNode, Suspense } from "react";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {

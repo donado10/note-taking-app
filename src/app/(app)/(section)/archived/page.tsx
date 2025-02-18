@@ -1,4 +1,4 @@
-import MobileNavigationContainer from "@/components/MobileNavigationContainer";
+import MobileNavigationContainer from "@/components/navigation/MobileNavigationContainer";
 
 export default function ArchivedPage() {
   return (

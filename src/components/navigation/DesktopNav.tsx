@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import Image from "next/image";
 import IconHome from "@/assets/images/icon-home.svg";
 import IconSearch from "@/assets/images/icon-search.svg";
@@ -10,7 +10,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getTags } from "./actions";
+import { getTags } from "@/app/actions";
 import TagsNavigation from "./TagsNavigation";
 
 const linkNav = [

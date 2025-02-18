@@ -1,6 +1,6 @@
 "use server";
 
-import { NotesNavigation } from "./NotesNavigation";
+import { NotesNavigation } from "@/components/navigation/NotesNavigation";
 import { headers } from "next/headers";
 
 export interface INote {

@@ -1,5 +1,5 @@
 import React from "react";
-import { getData, INote } from "./actions";
+import { getData, INote } from "@/app/actions";
 import Link from "next/link";
 import { headers } from "next/headers";
 
