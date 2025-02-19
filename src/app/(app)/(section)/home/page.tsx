@@ -3,12 +3,9 @@ import MobileNavigationContainer from "@/components/navigation/MobileNavigationC
 export default function HomePage() {
   return (
     <>
-      {
-        <div className="xl:hidden">
-          <MobileNavigationContainer />
-        </div>
-      }
-      {<div className="xs:hidden xl:block"></div>}
+      <div className="h-full xl:hidden">
+        <MobileNavigationContainer />
+      </div>
     </>
   );
 }
