@@ -26,7 +26,7 @@ export default async function RootLayout({
             <NotesNavigation data={data} />
           </Suspense>
         </div>
-        <div className="h-full w-3/4">{children}</div>
+        <div className="h-full w-2/4">{children}</div>
       </div>
       <div className="h-full xl:hidden">{children}</div>
     </NoteContext>

@@ -3,8 +3,8 @@
 import React, { useContext } from "react";
 import { NoteProvider } from "@/context/NoteContext";
 import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
-import MobileScreen from "@/components/MobileScreen";
-import DesktopScreen from "@/components/DesktopScreen";
+import MobileScreen from "@/components/Note/MobileScreen";
+import DesktopScreen from "@/components//Note/DesktopScreen";
 import { usePathname } from "next/navigation";
 import { INote } from "@/app/actions";
 
