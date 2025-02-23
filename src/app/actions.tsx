@@ -49,3 +49,21 @@ export const getTags = async () => {
   const tagsRaw = data.map((d) => d.tags);
   return tagsRaw.flat();
 };
+
+export const getSearchData = async ({ query }: { query: string }) => {
+  const data = (await getData()) as INote[];
+  query = query.toLowerCase();
+  const searchContent = data.filter((d) =>
+    d.content.toLowerCase().includes(query),
+  );
+  const searchTitle = data.filter((d) => d.title.toLowerCase().includes(query));
+  const searchTags = data.filter((d) =>
+    d.tags.some((t) => t.toLowerCase() === query),
+  );
+
+  return [...searchContent, ...searchTitle, searchTags].filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((obj) => JSON.stringify(obj) === JSON.stringify(value)),
+  );
+};

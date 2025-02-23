@@ -4,6 +4,8 @@ import { NotesHandler } from "@/app/actions";
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
 import React from "react";
 import TitlePage from "../TitlePage";
+import Image from "next/image";
+import IconSearch from "@/assets/images/icon-search.svg";
 
 const MobileNavigationContainer = async () => {
   const data = await NotesHandler();
@@ -14,6 +16,12 @@ const MobileNavigationContainer = async () => {
       {data && data.length > 0 && <NotesNavigation data={data} />}
     </div>
   );
+};
+
+export const MobileNavigationContainerSearch = async () => {
+  const data = await NotesHandler();
+
+  return <>{data && data.length > 0 && <NotesNavigation data={data} />}</>;
 };
 
 export default MobileNavigationContainer;

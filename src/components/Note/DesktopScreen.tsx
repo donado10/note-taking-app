@@ -12,6 +12,16 @@ const DesktopScreen = ({ note }: { note: INote }) => {
         lastEdited={note.lastEdited}
       />
       <NoteText content={note.content} />
+      <div className="flex items-center gap-4">
+        <button className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white">
+          {" "}
+          <span>Save Note</span>
+        </button>
+        <button className="w-fit rounded-lg bg-notes-blue-third p-2 text-xs text-black">
+          {" "}
+          <span> Cancel</span>
+        </button>
+      </div>
     </div>
   );
 };
