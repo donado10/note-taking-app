@@ -50,7 +50,7 @@ export const getTags = async () => {
   return tagsRaw.flat();
 };
 
-export const getSearchData = async ({ query }: { query: string }) => {
+export const getSearchData = async (query: string) => {
   const data = (await getData()) as INote[];
   query = query.toLowerCase();
   const searchContent = data.filter((d) =>
@@ -61,7 +61,7 @@ export const getSearchData = async ({ query }: { query: string }) => {
     d.tags.some((t) => t.toLowerCase() === query),
   );
 
-  return [...searchContent, ...searchTitle, searchTags].filter(
+  return [...searchContent, ...searchTitle, ...searchTags].filter(
     (value, index, self) =>
       index ===
       self.findIndex((obj) => JSON.stringify(obj) === JSON.stringify(value)),
