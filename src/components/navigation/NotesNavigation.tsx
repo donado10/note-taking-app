@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 const Note = async ({ note }: { note: INote }) => {
   const headerList = headers();
   const pathname = (await headerList).get("x-current-path");
-
+  const search = (await headerList).get("x-search-query");
   return (
     <Link href={`${pathname}/${note.title.split(" ").join("-").toLowerCase()}`}>
       <li className="flex flex-col gap-2 border-b-[1px] p-4">

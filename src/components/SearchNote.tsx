@@ -2,7 +2,8 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import IconSearch from "@/assets/images/icon-search.svg";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 type Props = {};
 
@@ -10,11 +11,17 @@ const SearchNote = (props: Props) => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const submitHandler = (event: SubmitEvent) => {
     event.preventDefault();
     const text = inputRef.current.value;
-    router.push(pathname + "/" + "?q=" + text);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("q", text);
+
+    router.push("/search?" + params.toString());
+    router.refresh();
+
     return;
   };
   return (

@@ -9,6 +9,7 @@ import IconSearch from "@/assets/images/icon-search.svg";
 import IconSettings from "@/assets/images/icon-settings.svg";
 import Image from "next/image";
 import Link from "next/link";
+import SearchNote from "@/components/SearchNote";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -43,16 +44,7 @@ export default function RootLayout({
             <header className="flex h-[13%] items-center justify-between border-b-[1px] p-5 px-8">
               <TitlePage />
               <div className="flex items-center gap-8">
-                <div className="flex h-10 w-72 items-center justify-center gap-2 rounded-lg border-[1px] p-2">
-                  <span>
-                    <Image src={IconSearch} alt="" />
-                  </span>
-                  <input
-                    type="text"
-                    className="w-full border-none outline-none"
-                    placeholder="Search by title, content, or tags…"
-                  />
-                </div>
+                <SearchNote />
                 <div>
                   <Link href="/settings">
                     <Image src={IconSettings} alt="" />

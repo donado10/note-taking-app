@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { NotesHandler } from "@/app/actions";
+import { getData, getSearchData, INote, NotesHandler } from "@/app/actions";
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
 import { Suspense } from "react";
 import NoteContext from "@/context/NoteContext";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import IconArchive from "@/assets/images/icon-archive.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -20,9 +21,16 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   const headerList = headers();
-  const pathname = (await headerList).get("x-current-path")?.split("/");
-  console.log(pathname);
-  const data = await NotesHandler();
+  let data: INote[] = [];
+  const search = (await headerList).get("x-search-query")?.split("=");
+  const pathname = (await headerList).get("x-current-path");
+
+  console.log(search);
+  if (search) {
+    data = await getSearchData(search[1]);
+  } else {
+    data = await NotesHandler();
+  }
 
   return (
     <NoteContext value={data}>
