@@ -2,9 +2,9 @@
 
 import React, { ReactElement, useRef, useState } from "react";
 import Image from "next/image";
-import IconLight from "@/assets/images/icon-sun.svg";
-import IconDark from "@/assets/images/icon-moon.svg";
-import IconSystem from "@/assets/images/icon-system-theme.svg";
+import IconSerif from "@/assets/images/icon-font-serif.svg";
+import IconSansSerif from "@/assets/images/icon-font-sans-serif.svg";
+import IconMonospace from "@/assets/images/icon-font-monospace.svg";
 import type { ReactNode, Ref } from "react";
 
 const themeMap = new Map<string, string>([
@@ -13,7 +13,7 @@ const themeMap = new Map<string, string>([
   ["system", "System"],
 ]);
 
-interface IThemeSelector extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface IFontSelector extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactElement;
   title: string;
   description: string;
@@ -21,7 +21,7 @@ interface IThemeSelector extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-const ThemeSelector: React.FC<IThemeSelector> = ({
+const FontSelector: React.FC<IFontSelector> = ({
   icon,
   title,
   description,
@@ -45,7 +45,7 @@ const ThemeSelector: React.FC<IThemeSelector> = ({
   );
 };
 
-const ColorThemeMobile = () => {
+const FontMobile = () => {
   const [themeSelection, setThemeSelection] = useState<{
     light: boolean;
     dark: boolean;
@@ -57,13 +57,13 @@ const ColorThemeMobile = () => {
 
   return (
     <div className="h-full w-full">
-      <h1 className="mb-2 text-2xl font-bold">Color Theme</h1>
-      <p className="mb-4 text-xs">Choose your color theme:</p>
+      <h1 className="mb-2 text-2xl font-bold">Font Theme</h1>
+      <p className="mb-4 text-xs">Choose your font theme:</p>
       <div className="mb-4 flex w-full flex-col gap-4">
-        <ThemeSelector
-          icon={<Image src={IconLight} alt="" />}
-          title="Light Mode"
-          description="Pick a clean and classic light theme"
+        <FontSelector
+          icon={<Image src={IconSansSerif} alt="" />}
+          title="Sans-serif"
+          description="Clean and modern, easy to read."
           onClick={() => {
             setThemeSelection({ light: true, dark: false, system: false });
 
@@ -78,11 +78,11 @@ const ColorThemeMobile = () => {
             defaultChecked={themeSelection.light}
             ref={inputLight}
           />
-        </ThemeSelector>
-        <ThemeSelector
-          icon={<Image src={IconDark} alt="" />}
-          title="Dark Mode"
-          description="Select a sleek and modern dark theme"
+        </FontSelector>
+        <FontSelector
+          icon={<Image src={IconSerif} alt="" />}
+          title="Serif"
+          description="Classic and elegant for a timeless feel."
           onClick={() => {
             setThemeSelection({ light: false, dark: true, system: false });
             inputLight.current!.checked = false;
@@ -93,11 +93,11 @@ const ColorThemeMobile = () => {
           ref={inputDark}
         >
           <input type="radio" ref={inputDark} />
-        </ThemeSelector>
-        <ThemeSelector
-          icon={<Image src={IconSystem} alt="" />}
-          title="System Mode"
-          description="Adapts to your device’s theme"
+        </FontSelector>
+        <FontSelector
+          icon={<Image src={IconMonospace} alt="" />}
+          title="Monospace"
+          description="Code-like, great for a technical vibe."
           onClick={() => {
             setThemeSelection({ light: false, dark: false, system: true });
 
@@ -109,7 +109,7 @@ const ColorThemeMobile = () => {
           ref={inputSystem}
         >
           <input type="radio" ref={inputSystem} />
-        </ThemeSelector>
+        </FontSelector>
       </div>
       <div className="flex w-full">
         <button className="ml-auto rounded-lg bg-notes-blue-secondary p-2 text-sm text-white">
@@ -120,12 +120,12 @@ const ColorThemeMobile = () => {
   );
 };
 
-const ColorThemePage = () => {
+const FontPage = () => {
   return (
     <>
-      <ColorThemeMobile />
+      <FontMobile />
     </>
   );
 };
 
-export default ColorThemePage;
+export default FontPage;
