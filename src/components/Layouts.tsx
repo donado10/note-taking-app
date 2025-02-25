@@ -23,9 +23,7 @@ export default async function RootLayout({
   const headerList = headers();
   let data: INote[] = [];
   const search = (await headerList).get("x-search-query")?.split("=");
-  const pathname = (await headerList).get("x-current-path");
 
-  console.log(search);
   if (search) {
     data = await getSearchData(search[1]);
   } else {
