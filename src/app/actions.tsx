@@ -1,26 +1,21 @@
 "use server";
 
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
+import connectDB from "@/config/database";
 import { formatDate } from "@/utils/functions";
 import { headers } from "next/headers";
-
-export interface INote {
-  title: string;
-  tags: string[];
-  content: string;
-  lastEdited: string;
-  isArchived: boolean;
-}
+import noteModel, { INote } from "@/models/noteModel";
 
 export const getData = async () => {
-  const response = await fetch("http://localhost:3000/data.json");
-  const data = await response.json();
-  data.notes.forEach((note: any) => {
-    console.log(note.lastEdited);
+  await connectDB();
+  const data = JSON.parse(JSON.stringify(await noteModel.find()));
+  //const response = await fetch("http://localhost:3000/data.json");
+  //const data = await response.json();
+  data.forEach((note: any) => {
     note.lastEdited = formatDate(note.lastEdited);
   });
 
-  return data.notes;
+  return data;
 };
 
 export const NotesHandler = async () => {
