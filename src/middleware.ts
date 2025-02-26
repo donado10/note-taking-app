@@ -8,7 +8,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 
   const headers = new Headers(request.headers);
-  console.log(request.nextUrl);
   headers.set("x-current-path", request.nextUrl.pathname);
   headers.set("x-search-query", request.nextUrl.search);
   return NextResponse.next({ headers });

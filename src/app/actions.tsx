@@ -1,6 +1,7 @@
 "use server";
 
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
+import { formatDate } from "@/utils/functions";
 import { headers } from "next/headers";
 
 export interface INote {
@@ -14,6 +15,10 @@ export interface INote {
 export const getData = async () => {
   const response = await fetch("http://localhost:3000/data.json");
   const data = await response.json();
+  data.notes.forEach((note: any) => {
+    console.log(note.lastEdited);
+    note.lastEdited = formatDate(note.lastEdited);
+  });
 
   return data.notes;
 };

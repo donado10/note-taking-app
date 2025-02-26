@@ -6,6 +6,8 @@ import IconSerif from "@/assets/images/icon-font-serif.svg";
 import IconSansSerif from "@/assets/images/icon-font-sans-serif.svg";
 import IconMonospace from "@/assets/images/icon-font-monospace.svg";
 import type { ReactNode, Ref } from "react";
+import BackButton from "../BackButton";
+import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
 
 const themeMap = new Map<string, string>([
   ["light", "Light Mode"],
@@ -54,9 +56,16 @@ const FontMobile = () => {
   const inputLight = useRef<HTMLInputElement>(null);
   const inputDark = useRef<HTMLInputElement>(null);
   const inputSystem = useRef<HTMLInputElement>(null);
+  const Mobile = useMediaQuery(EMediaQuery.MOBILE);
+  const Big = useMediaQuery(EMediaQuery.BIG);
 
   return (
     <div className="h-full w-full">
+      {Mobile && !Big && (
+        <div className="mb-2">
+          <BackButton />
+        </div>
+      )}
       <h1 className="mb-2 text-2xl font-bold">Font Theme</h1>
       <p className="mb-4 text-xs">Choose your font theme:</p>
       <div className="mb-4 flex w-full flex-col gap-4">

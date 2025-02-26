@@ -23,7 +23,7 @@ const layout = ({ children }: { children: ReactNode }) => {
             </div>
           </Link>
         </div>
-        <div className="h-full w-2/4 border-r-[1px] p-4">{children}</div>
+        <div className="h-full w-2/4 p-4">{children}</div>
       </div>
       <div className="h-full xl:hidden">{children}</div>
     </>
