@@ -9,8 +9,7 @@ import noteModel, { INote } from "@/models/noteModel";
 export const getData = async () => {
   await connectDB();
   const data = JSON.parse(JSON.stringify(await noteModel.find()));
-  //const response = await fetch("http://localhost:3000/data.json");
-  //const data = await response.json();
+
   data.forEach((note: any) => {
     note.lastEdited = formatDate(note.lastEdited);
   });

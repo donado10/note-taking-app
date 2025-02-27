@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
-import { getData, getSearchData, INote, NotesHandler } from "@/app/actions";
+import { getData, getSearchData, NotesHandler } from "@/app/actions";
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
 import { Suspense } from "react";
-import NoteContext from "@/context/NoteContext";
+import NotesContext from "@/context/NotesContext";
 import Image from "next/image";
 import IconArchive from "@/assets/images/icon-archive.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { INote } from "@/models/noteModel";
 
 export const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -31,7 +32,7 @@ export default async function RootLayout({
   }
 
   return (
-    <NoteContext value={data}>
+    <NotesContext value={data}>
       <div className="h-full flex-row xs:hidden xl:flex">
         <div className="h-full w-1/4 overflow-y-scroll border-r-[1px] p-4">
           <Suspense fallback="loading">
@@ -55,6 +56,6 @@ export default async function RootLayout({
         </div>
       </div>
       <div className="h-full xl:hidden">{children}</div>
-    </NoteContext>
+    </NotesContext>
   );
 }

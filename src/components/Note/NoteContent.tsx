@@ -1,15 +1,39 @@
 "use client";
 
-import React, { useContext } from "react";
-import { NoteProvider } from "@/context/NoteContext";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { NotesProvider } from "@/context/NotesContext";
 import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
 import MobileScreen from "@/components/Note/MobileScreen";
 import DesktopScreen from "@/components//Note/DesktopScreen";
 import { usePathname } from "next/navigation";
-import { INote } from "@/app/actions";
+import { INote } from "@/models/noteModel";
+
+interface INoteContext {
+  note: INote | null;
+  editNote?: (note: INote) => void;
+}
+
+export const NoteProvider = createContext<INoteContext | null>(null);
+
+const NoteContext = ({
+  note,
+  children,
+}: {
+  note: INoteContext;
+  children: ReactNode;
+  editNote?: (note: INote) => void;
+}) => {
+  return <NoteProvider value={note}>{children}</NoteProvider>;
+};
 
 export default function NoteContent() {
-  const notesCtx = useContext(NoteProvider);
+  const notesCtx = useContext(NotesProvider);
   const Mobile = useMediaQuery(EMediaQuery.MOBILE);
   const Big = useMediaQuery(EMediaQuery.BIG);
   const pathname = usePathname().split("/");
@@ -20,14 +44,25 @@ export default function NoteContent() {
     .join(" ")
     .toLowerCase();
 
-  const note =
+  const [note, setCurrentNote] = useState<INote>(
     notesCtx.data.find((note) => note.title.toLowerCase() === noteTitlePath) ??
-    ({} as INote);
+      ({} as INote),
+  );
+  useEffect(() => {
+    const actualNote = notesCtx.data.filter((note_) => note_._id === note._id);
+    if (JSON.stringify(note) !== JSON.stringify(actualNote[0])) {
+      notesCtx.editedNote!({ ...note });
+    } else {
+      notesCtx.editedNote!(null);
+    }
+
+    return;
+  }, [JSON.stringify(note)]);
 
   return (
-    <>
-      {Mobile && !Big && <MobileScreen note={note} />}
-      {Big && <DesktopScreen note={note} />}
-    </>
+    <NoteContext note={{ note: note, editNote: setCurrentNote }}>
+      {Mobile && !Big && <MobileScreen />}
+      {Big && <DesktopScreen />}
+    </NoteContext>
   );
 }

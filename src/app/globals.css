@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input {
+  outline: none;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 2px;

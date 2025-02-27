@@ -1,8 +1,18 @@
-import { INote } from "@/app/actions";
-import React from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { NoteText, NoteHeader, NoteMetadata } from "./NoteContentSection";
+import { INote } from "@/models/noteModel";
+import { NotesProvider } from "@/context/NotesContext";
+import { NoteProvider } from "./NoteContent";
 
-const MobileScreen = ({ note }: { note: INote }) => {
+const MobileScreen = () => {
+  const note = useContext(NoteProvider)?.note!;
+
   return (
     <div className="flex h-full flex-col gap-4">
       <NoteHeader />

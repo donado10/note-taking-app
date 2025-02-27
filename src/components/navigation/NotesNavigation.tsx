@@ -1,7 +1,7 @@
 import React from "react";
-import { getData, INote } from "@/app/actions";
 import Link from "next/link";
 import { headers } from "next/headers";
+import { INote } from "@/models/noteModel";
 
 const Note = async ({ note }: { note: INote }) => {
   const headerList = headers();

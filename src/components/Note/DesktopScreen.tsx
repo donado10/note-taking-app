@@ -1,9 +1,31 @@
-import { INote } from "@/app/actions";
-import React from "react";
-import { NoteHeader, NoteMetadata } from "./NoteContentSection";
+import { INote } from "@/models/noteModel";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { NoteFooter, NoteHeader, NoteMetadata } from "./NoteContentSection";
 import { NoteText } from "./NoteContentSection";
+import { NotesProvider } from "@/context/NotesContext";
+import { NoteProvider } from "./NoteContent";
 
-const DesktopScreen = ({ note }: { note: INote }) => {
+const DesktopScreen = () => {
+  const note = useContext(NoteProvider)?.note!;
+  const notesCtx = useContext(NotesProvider);
+  /* 
+  useEffect(() => {
+    const actualNote = notesCtx.data.filter((note_) => note_._id === note._id);
+    if (JSON.stringify(note) !== JSON.stringify(actualNote[0])) {
+      notesCtx.editedNote!({ ...note });
+    } else {
+      notesCtx.editedNote!(null);
+    }
+
+    return;
+  }, [JSON.stringify(note)]); */
+
   return (
     <div className="flex h-full flex-col gap-4 p-4">
       <NoteMetadata
@@ -12,16 +34,7 @@ const DesktopScreen = ({ note }: { note: INote }) => {
         lastEdited={note.lastEdited}
       />
       <NoteText content={note.content} />
-      <div className="flex items-center gap-4">
-        <button className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white">
-          {" "}
-          <span>Save Note</span>
-        </button>
-        <button className="w-fit rounded-lg bg-notes-blue-third p-2 text-xs text-black">
-          {" "}
-          <span> Cancel</span>
-        </button>
-      </div>
+      <NoteFooter />
     </div>
   );
 };
