@@ -5,10 +5,20 @@ import IconArchive from "@/assets/images/icon-archive.svg";
 import IconTags from "@/assets/images/icon-tag.svg";
 import IconClock from "@/assets/images/icon-clock.svg";
 import { useRouter } from "next/navigation";
-import { Ref, useContext, useEffect, useRef, useState } from "react";
+import {
+  Ref,
+  useActionState,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { convertToISODate, formatDate } from "@/utils/functions";
 import { NoteProvider } from "./NoteContent";
 import { NotesProvider } from "@/context/NotesContext";
+import { updateNote } from "@/app/actions";
+import { useFormState } from "react-dom";
+import { INote } from "@/models/noteModel";
 
 export const NoteHeader = () => {
   const router = useRouter();
@@ -149,15 +159,22 @@ export const NoteText = ({ content }: { content: string }) => {
 export const NoteFooter = () => {
   const notesCtx = useContext(NotesProvider);
   const noteCtx = useContext(NoteProvider);
+  const [state, formAction] = useActionState(
+    updateNote.bind(null, noteCtx?.note!),
+    null,
+  );
+const router = useRouter()
 
   return (
     <div className="flex items-center gap-4">
-      <button
-        disabled={notesCtx.noteEdited === null}
-        className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
-      >
-        <span>Save Note</span>
-      </button>
+      <form action={formAction} onClick={()=>router.refresh()}>
+        <button
+          disabled={notesCtx.noteEdited === null}
+          className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
+        >
+          <span>Save Note</span>
+        </button>
+      </form>
       <button
         onClick={() => {
           notesCtx.editedNote!(null);

@@ -5,10 +5,11 @@ import { INote } from "@/models/noteModel";
 
 const Note = async ({ note }: { note: INote }) => {
   const headerList = headers();
-  const pathname = (await headerList).get("x-current-path");
+  const pathname = (await headerList).get("x-current-path").split('/');
   const search = (await headerList).get("x-search-query");
+  console.log(pathname)
   return (
-    <Link href={`${pathname}/${note.title.split(" ").join("-").toLowerCase()}`}>
+    <Link href={`/${pathname[1]}/${note.title.split(" ").join("-").toLowerCase()}`}>
       <li className="flex flex-col gap-2 border-b-[1px] p-4">
         <h2 className="font-notes-interSemiBold">{note.title}</h2>
         <div className="flex items-center gap-2 text-sm">
