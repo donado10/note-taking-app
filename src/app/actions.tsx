@@ -71,7 +71,6 @@ export const getSearchData = async (query: string) => {
 export const updateNote = async (note: INote) => {
   const headerList = headers();
   const pathname = (await headerList).get("referer")?.split(":3000");
-  console.log(pathname);
   const response = await noteModel.findByIdAndUpdate(
     String(note._id),
     {
@@ -79,4 +78,6 @@ export const updateNote = async (note: INote) => {
     },
     { new: true },
   );
+
+  // revalidatePath("/", "page");
 };

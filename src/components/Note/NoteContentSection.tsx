@@ -163,11 +163,20 @@ export const NoteFooter = () => {
     updateNote.bind(null, noteCtx?.note!),
     null,
   );
-const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="flex items-center gap-4">
-      <form action={formAction} onClick={()=>router.refresh()}>
+      <form
+        action={formAction}
+        onClick={() => {
+          let data = [
+            ...notesCtx.data.filter((note) => note._id !== noteCtx?.note?._id),
+          ];
+          notesCtx.editNotes!([...data, noteCtx?.note!]);
+          notesCtx.editedNote!(null);
+        }}
+      >
         <button
           disabled={notesCtx.noteEdited === null}
           className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
