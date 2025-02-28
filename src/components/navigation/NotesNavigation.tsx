@@ -1,3 +1,5 @@
+"use server";
+
 import React from "react";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -6,7 +8,6 @@ import { INote } from "@/models/noteModel";
 const Note = async ({ note }: { note: INote }) => {
   const headerList = headers();
   const pathname = (await headerList).get("x-current-path")?.split("/");
-  const search = (await headerList).get("x-search-query");
   return (
     <>
       {pathname && (
@@ -30,7 +31,7 @@ const Note = async ({ note }: { note: INote }) => {
   );
 };
 
-export const NotesNavigation = ({ data }: { data: INote[] }) => {
+export const NotesNavigation = async ({ data }: { data: INote[] }) => {
   return (
     <ul className="h-full">
       {data.map((d, i) => (

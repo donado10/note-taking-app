@@ -9,6 +9,7 @@ import IconDelete from "@/assets/images/icon-delete.svg";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { INote } from "@/models/noteModel";
+import { NotesNavigationWrapper } from "./Note/NoteContentSection";
 
 export const PageLayout = ({ children }: { children: ReactNode }) => {
   return (

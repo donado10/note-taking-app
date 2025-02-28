@@ -13,6 +13,7 @@ import MobileScreen from "@/components/Note/MobileScreen";
 import DesktopScreen from "@/components//Note/DesktopScreen";
 import { usePathname } from "next/navigation";
 import { INote } from "@/models/noteModel";
+import { NotesNavigation } from "../navigation/NotesNavigation";
 
 interface INoteContext {
   note: INote | null;

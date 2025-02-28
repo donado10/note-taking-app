@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import IconArrowLeft from "@/assets/images/icon-arrow-left.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
@@ -17,15 +19,17 @@ import { convertToISODate, formatDate } from "@/utils/functions";
 import { NoteProvider } from "./NoteContent";
 import { NotesProvider } from "@/context/NotesContext";
 import { updateNote } from "@/app/actions";
-import { useFormState } from "react-dom";
-import { INote } from "@/models/noteModel";
+import { NotesNavigation } from "../navigation/NotesNavigation";
 
 export const NoteHeader = () => {
   const router = useRouter();
   const notesCtx = useContext(NotesProvider);
   const noteCtx = useContext(NoteProvider);
   const [state, formAction] = useActionState(
-    updateNote.bind(null, noteCtx?.note!),
+    updateNote.bind(null, {
+      ...noteCtx?.note!,
+      lastEdited: new Date().toISOString(),
+    }),
     null,
   );
 
@@ -60,7 +64,6 @@ export const NoteHeader = () => {
             const actualNote = notesCtx.data.filter(
               (note_) => note_._id === noteCtx?.note?._id,
             );
-            console.log(actualNote);
             noteCtx?.editNote!(actualNote[0]);
           }}
         >
@@ -74,6 +77,10 @@ export const NoteHeader = () => {
                 (note) => note._id !== noteCtx?.note?._id,
               ),
             ];
+            noteCtx?.editNote!({
+              ...noteCtx.note!,
+              lastEdited: new Date().toISOString(),
+            });
             notesCtx.editNotes!([...data, noteCtx?.note!]);
             notesCtx.editedNote!(null);
           }}
@@ -125,23 +132,7 @@ export const NoteMetadata = ({
           <Image src={IconClock} alt="" />
           <span>Last edited</span>
         </div>
-        <span onClick={() => setIsEditDate((prev) => !prev)}>
-          {!isEditDate && lastEdited}
-        </span>
-        <span>
-          {isEditDate && (
-            <>
-              <input
-                type="date"
-                defaultValue={convertToISODate(lastEdited)}
-                onChange={(e) => {
-                  note.lastEdited = formatDate(e.currentTarget.value);
-                  noteCtx?.editNote!({ ...note });
-                }}
-              />
-            </>
-          )}
-        </span>
+        <span>{lastEdited}</span>
       </div>
     </div>
   );
@@ -177,7 +168,10 @@ export const NoteFooter = () => {
   const notesCtx = useContext(NotesProvider);
   const noteCtx = useContext(NoteProvider);
   const [state, formAction] = useActionState(
-    updateNote.bind(null, noteCtx?.note!),
+    updateNote.bind(null, {
+      ...noteCtx?.note!,
+      lastEdited: new Date().toISOString(),
+    }),
     null,
   );
 
@@ -189,6 +183,10 @@ export const NoteFooter = () => {
           let data = [
             ...notesCtx.data.filter((note) => note._id !== noteCtx?.note?._id),
           ];
+          noteCtx?.editNote!({
+            ...noteCtx.note!,
+            lastEdited: formatDate(new Date().toISOString()),
+          });
           notesCtx.editNotes!([...data, noteCtx?.note!]);
           notesCtx.editedNote!(null);
         }}
@@ -206,6 +204,7 @@ export const NoteFooter = () => {
           const actualNote = notesCtx.data.filter(
             (note_) => note_._id === noteCtx?.note!._id,
           );
+
           noteCtx?.editNote!(actualNote[0]);
         }}
         className="w-fit rounded-lg bg-notes-blue-third p-2 text-xs text-black"
@@ -213,5 +212,14 @@ export const NoteFooter = () => {
         <span> Cancel</span>
       </button>
     </div>
+  );
+};
+
+export const NotesNavigationWrapper = () => {
+  const data = useContext(NotesProvider).data;
+  return (
+    <>
+      <NotesNavigation data={data} />
+    </>
   );
 };
