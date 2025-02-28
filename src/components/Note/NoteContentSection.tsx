@@ -24,6 +24,10 @@ export const NoteHeader = () => {
   const router = useRouter();
   const notesCtx = useContext(NotesProvider);
   const noteCtx = useContext(NoteProvider);
+  const [state, formAction] = useActionState(
+    updateNote.bind(null, noteCtx?.note!),
+    null,
+  );
 
   return (
     <div className="flex items-center justify-between border-b-[1px] pb-4">
@@ -62,9 +66,22 @@ export const NoteHeader = () => {
         >
           <span>Cancel</span>
         </button>
-        <button disabled={notesCtx.noteEdited === null}>
-          <span className="text-notes-blue-secondary">Save Note</span>
-        </button>
+        <form
+          action={formAction}
+          onClick={() => {
+            let data = [
+              ...notesCtx.data.filter(
+                (note) => note._id !== noteCtx?.note?._id,
+              ),
+            ];
+            notesCtx.editNotes!([...data, noteCtx?.note!]);
+            notesCtx.editedNote!(null);
+          }}
+        >
+          <button disabled={notesCtx.noteEdited === null}>
+            <span className="text-notes-blue-secondary">Save Note</span>
+          </button>
+        </form>
       </div>
     </div>
   );
@@ -163,7 +180,6 @@ export const NoteFooter = () => {
     updateNote.bind(null, noteCtx?.note!),
     null,
   );
-  const router = useRouter();
 
   return (
     <div className="flex items-center gap-4">
