@@ -33,19 +33,7 @@ export const MobileNavigationContainerSearch = async ({
 }) => {
   const data = await getSearchData(query);
 
-  return (
-    <>
-      <TitlePage />
-      <SearchNote />
-      {data && data.length > 0 && <NotesNavigation data={data} />}
-      <button className="absolute bottom-0 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-notes-blue-primary">
-        <span>
-          {" "}
-          <Image src={IconNewNote} alt="" />
-        </span>
-      </button>
-    </>
-  );
+  return <>{data && data.length > 0 && <NotesNavigation data={data} />}</>;
 };
 
 export default MobileNavigationContainer;
