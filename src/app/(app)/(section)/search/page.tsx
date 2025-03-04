@@ -11,12 +11,10 @@ export default async function SearchPage({ searchParams }: Params) {
   const param = (await searchParams).q;
   return (
     <>
-      <div className="h-full xl:hidden">
-        <div className="h-full overflow-y-scroll p-4">
-          <TitlePage />
-          <SearchNote />
-          {param && <MobileNavigationContainerSearch query={param} />}
-        </div>
+      <div className="h-full overflow-y-scroll p-4 xl:hidden">
+        <TitlePage />
+        <SearchNote />
+        {param && <MobileNavigationContainerSearch query={param} />}
       </div>
     </>
   );

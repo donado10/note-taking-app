@@ -24,16 +24,16 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fonts} min-h-full bg-white text-black`}>
-        <div className="h-full w-full bg-notes-blue-third xl:hidden">
-          <header className="p-4">
+      <body className={`${fonts} h-screen bg-white text-black`}>
+        <div className="h-full w-full overflow-scroll bg-notes-blue-third xl:hidden">
+          <header className="h-[10%] p-4">
             <Logo />
           </header>
-
-          <main className="mb-24 h-screen w-full rounded-t-2xl bg-white p-4 font-notes-interRegular">
+          <main className="h-[80%] w-full rounded-t-2xl bg-white p-4 font-notes-interRegular">
             {children}
           </main>
-          <nav className="fixed bottom-0 left-0 flex w-screen items-center justify-center bg-white">
+
+          <nav className="flex h-[10%] w-screen items-center justify-center bg-white">
             <MobileNav />
           </nav>
         </div>

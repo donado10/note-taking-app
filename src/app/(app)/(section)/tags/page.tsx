@@ -7,8 +7,7 @@ import Image from "next/image";
 
 export default function TagsPage() {
   return (
-    <div className="xl:hidden">
-      {" "}
+    <div className="h-full xl:hidden">
       <TagsNavigationMobile />
     </div>
   );

@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { INote } from "@/models/noteModel";
+import Image from "next/image";
+import IconNewNote from "@/assets/images/icon-plus.svg";
 
 const Note = async ({ note }: { note: INote }) => {
   const headerList = headers();
@@ -33,10 +35,16 @@ const Note = async ({ note }: { note: INote }) => {
 
 export const NotesNavigation = async ({ data }: { data: INote[] }) => {
   return (
-    <ul className="h-full">
+    <ul className="relative h-full">
       {data.map((d, i) => (
         <Note key={i} note={d} />
       ))}
+      <button className="fixed inset-0 flex h-8 w-8 items-center justify-center rounded-full bg-notes-blue-primary">
+        <span>
+          {" "}
+          <Image src={IconNewNote} alt="" />
+        </span>
+      </button>
     </ul>
   );
 };
