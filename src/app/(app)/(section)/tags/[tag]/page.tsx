@@ -3,7 +3,7 @@ import MobileNavigationContainer from "@/components/navigation/MobileNavigationC
 export default function TagPage() {
   return (
     <>
-      <div className="h-full xl:hidden">
+      <div className="relative h-full xl:hidden">
         <MobileNavigationContainer />
       </div>
     </>
