@@ -5,7 +5,6 @@ import connectDB from "@/config/database";
 import { formatDate } from "@/utils/functions";
 import { headers } from "next/headers";
 import noteModel, { INote } from "@/models/noteModel";
-import { revalidatePath } from "next/cache";
 
 export const getData = async () => {
   await connectDB();
@@ -70,14 +69,6 @@ export const getSearchData = async (query: string) => {
 
 export const updateNote = async (note: INote) => {
   const headerList = headers();
-  const pathname = (await headerList).get("referer")?.split(":3000");
-  const response = await noteModel.findByIdAndUpdate(
-    String(note._id),
-    {
-      ...note,
-    },
-    { new: true },
-  );
 
   // revalidatePath("/", "page");
 };

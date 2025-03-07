@@ -20,12 +20,13 @@ import { NoteProvider } from "./NoteContent";
 import { NotesProvider } from "@/context/NotesContext";
 import { updateNote } from "@/app/actions";
 import { NotesNavigation } from "../navigation/NotesNavigation";
+import { revalidatePath } from "next/cache";
 
 export const NoteHeader = () => {
   const router = useRouter();
   const notesCtx = useContext(NotesProvider);
   const noteCtx = useContext(NoteProvider);
-  const [state, formAction] = useActionState(
+  const [_, formAction] = useActionState(
     updateNote.bind(null, {
       ...noteCtx?.note!,
       lastEdited: new Date().toISOString(),
@@ -168,11 +169,20 @@ export const NoteMetadata = ({
   const noteCtx = useContext(NoteProvider);
   const note = { ...noteCtx?.note! };
 
-  const [isEditDate, setIsEditDate] = useState(false);
-
   return (
     <div className="border-b-[1px] pb-4">
-      <h1 className="mb-4 text-2xl font-bold">{title}</h1>
+      <div className="mb-4 text-2xl font-bold">
+        <input
+          type="text"
+          className="w-full"
+          defaultValue={title}
+          onChange={(e) => {
+            note.title = e.currentTarget.value;
+            console.log(note.title);
+            noteCtx?.editNote!({ ...note });
+          }}
+        />
+      </div>
       <div className="mb-2 flex items-center">
         <div className="flex w-40 items-center gap-2">
           <Image src={IconTags} alt="" />
@@ -183,7 +193,8 @@ export const NoteMetadata = ({
             type="text"
             defaultValue={tags}
             onChange={(e) => {
-              note.tags = e.currentTarget.value.split(",");
+              const value = e.currentTarget.value.replace(/\s+/g, "");
+              note.tags = value.split(",");
               noteCtx?.editNote!({ ...note });
             }}
           />
@@ -239,27 +250,36 @@ export const NoteFooter = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <form
-        action={formAction}
+      <button
+        disabled={notesCtx.noteEdited === null}
+        className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
         onClick={() => {
-          let data = [
-            ...notesCtx.data.filter((note) => note._id !== noteCtx?.note?._id),
-          ];
-          noteCtx?.editNote!({
-            ...noteCtx.note!,
-            lastEdited: formatDate(new Date().toISOString()),
+          fetch("/api/notes", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              notes: { ...noteCtx?.note },
+            }),
+          }).then((res) => {
+            if (res.status === 200) {
+              revalidatePath("");
+            }
+            let data = [
+              ...notesCtx.data.filter(
+                (note) => note._id !== noteCtx?.note?._id,
+              ),
+            ];
+            noteCtx?.editNote!({
+              ...noteCtx.note!,
+              lastEdited: formatDate(new Date().toISOString()),
+            });
+            notesCtx.editNotes!([...data, noteCtx?.note!]);
+            notesCtx.editedNote!(null);
           });
-          notesCtx.editNotes!([...data, noteCtx?.note!]);
-          notesCtx.editedNote!(null);
         }}
       >
-        <button
-          disabled={notesCtx.noteEdited === null}
-          className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
-        >
-          <span>Save Note</span>
-        </button>
-      </form>
+        <span>Save Note</span>
+      </button>
       <button
         onClick={() => {
           notesCtx.editedNote!(null);
