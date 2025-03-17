@@ -22,17 +22,20 @@ import { updateNote } from "@/app/actions";
 import { NotesNavigation } from "../navigation/NotesNavigation";
 import { revalidatePath } from "next/cache";
 
-export const NoteHeader = () => {
+export interface INoteMetadata {
+  tags: string;
+  title: string;
+  lastEdited: string;
+}
+
+export const NoteHeader = ({
+  onSave,
+  onCancel,
+}: {
+  onSave: React.Dispatch<React.SetStateAction<boolean>>;
+  onCancel: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
-  const notesCtx = useContext(NotesProvider);
-  const noteCtx = useContext(NoteProvider);
-  const [_, formAction] = useActionState(
-    updateNote.bind(null, {
-      ...noteCtx?.note!,
-      lastEdited: new Date().toISOString(),
-    }),
-    null,
-  );
 
   return (
     <div className="flex items-center justify-between border-b-[1px] pb-4">
@@ -59,37 +62,12 @@ export const NoteHeader = () => {
             <Image src={IconArchive} alt="" />
           </span>
         </button>
-        <button
-          onClick={() => {
-            notesCtx.editedNote!(null);
-            const actualNote = notesCtx.data.filter(
-              (note_) => note_._id === noteCtx?.note?._id,
-            );
-            noteCtx?.editNote!(actualNote[0]);
-          }}
-        >
+        <button onClick={onCancel.bind(null, true)}>
           <span>Cancel</span>
         </button>
-        <form
-          action={formAction}
-          onClick={() => {
-            let data = [
-              ...notesCtx.data.filter(
-                (note) => note._id !== noteCtx?.note?._id,
-              ),
-            ];
-            noteCtx?.editNote!({
-              ...noteCtx.note!,
-              lastEdited: new Date().toISOString(),
-            });
-            notesCtx.editNotes!([...data, noteCtx?.note!]);
-            notesCtx.editedNote!(null);
-          }}
-        >
-          <button disabled={notesCtx.noteEdited === null}>
-            <span className="text-notes-blue-secondary">Save Note</span>
-          </button>
-        </form>
+        <button onClick={onSave.bind(null, true)} disabled={false}>
+          <span className="text-notes-blue-secondary">Save Note</span>
+        </button>
       </div>
     </div>
   );
@@ -158,28 +136,28 @@ export const NoteHeaderCreateNote = () => {
 };
 
 export const NoteMetadata = ({
-  title,
-  tags,
-  lastEdited,
+  metaData,
+  onChange,
 }: {
-  title: string;
-  tags: string;
-  lastEdited: string;
+  metaData: { tags: string; title: string; lastEdited: string };
+  onChange: React.Dispatch<
+    React.SetStateAction<{
+      tags: string;
+      title: string;
+      lastEdited: string;
+    } | null>
+  >;
 }) => {
-  const noteCtx = useContext(NoteProvider);
-  const note = { ...noteCtx?.note! };
-
   return (
     <div className="border-b-[1px] pb-4">
       <div className="mb-4 text-2xl font-bold">
         <input
           type="text"
           className="w-full"
-          defaultValue={title}
+          defaultValue={metaData.title}
           onChange={(e) => {
-            note.title = e.currentTarget.value;
-            console.log(note.title);
-            noteCtx?.editNote!({ ...note });
+            const title = e.currentTarget.value;
+            onChange({ ...metaData, title: title });
           }}
         />
       </div>
@@ -191,11 +169,10 @@ export const NoteMetadata = ({
         <span>
           <input
             type="text"
-            defaultValue={tags}
+            defaultValue={metaData.tags}
             onChange={(e) => {
               const value = e.currentTarget.value.replace(/\s+/g, "");
-              note.tags = value.split(",");
-              noteCtx?.editNote!({ ...note });
+              onChange({ ...metaData, tags: value });
             }}
           />
         </span>
@@ -205,20 +182,25 @@ export const NoteMetadata = ({
           <Image src={IconClock} alt="" />
           <span>Last edited</span>
         </div>
-        <span>{lastEdited}</span>
+        <span>{metaData.lastEdited}</span>
       </div>
     </div>
   );
 };
 
-export const NoteText = ({ content }: { content: string }) => {
-  const noteCtx = useContext(NoteProvider);
-  const note = { ...noteCtx?.note! };
+export const NoteText = ({
+  content,
+  onChange,
+}: {
+  content: string;
+  onChange: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [contentValue, setContentValue] = useState(content);
 
   useEffect(() => {
     setContentValue(content);
   }, [content]);
+
   return (
     <div className="w-full flex-grow border-b-[1px] pb-4">
       <textarea
@@ -227,10 +209,9 @@ export const NoteText = ({ content }: { content: string }) => {
         name=""
         id=""
         onChange={(e) => {
-          const value = e.target.value;
+          const value = e.currentTarget.value;
           setContentValue(value);
-          note.content = value;
-          noteCtx?.editNote!({ ...note });
+          onChange(value);
         }}
       ></textarea>
     </div>
@@ -262,19 +243,18 @@ export const NoteFooter = () => {
             }),
           }).then((res) => {
             if (res.status === 200) {
-              revalidatePath("");
+              let data = [
+                ...notesCtx.data.filter(
+                  (note) => note._id !== noteCtx?.note?._id,
+                ),
+              ];
+              noteCtx?.editNote!({
+                ...noteCtx.note!,
+                lastEdited: formatDate(new Date().toISOString()),
+              });
+              notesCtx.editNotes!([...data, noteCtx?.note!]);
+              notesCtx.editedNote!(null);
             }
-            let data = [
-              ...notesCtx.data.filter(
-                (note) => note._id !== noteCtx?.note?._id,
-              ),
-            ];
-            noteCtx?.editNote!({
-              ...noteCtx.note!,
-              lastEdited: formatDate(new Date().toISOString()),
-            });
-            notesCtx.editNotes!([...data, noteCtx?.note!]);
-            notesCtx.editedNote!(null);
           });
         }}
       >

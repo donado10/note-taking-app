@@ -7,7 +7,6 @@ export async function PUT(request: Request) {
   const note = req.notes;
 
   if (note) {
-    console.log(note);
     const response = await noteModel.findByIdAndUpdate(
       String(note._id),
       {
