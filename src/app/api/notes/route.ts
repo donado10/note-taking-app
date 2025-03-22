@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 export async function GET(request: Request) {
   const data = await noteModel.find();
 
-  return Response.json({ notes: data });
+  return Response.json({ notes: data, revalidated: true });
 }
 
 export async function PUT(request: Request) {

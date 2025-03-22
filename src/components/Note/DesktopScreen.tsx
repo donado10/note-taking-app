@@ -59,8 +59,8 @@ const DesktopScreen = () => {
       ]);
       // router.push("/home");
       // router.refresh();
-      mutate("http://localhost:3000/api/notes/tags");
-      mutate("http://localhost:3000/api/notes");
+      await mutate("http://localhost:3000/api/notes/tags");
+      await mutate("http://localhost:3000/api/notes");
     }
   };
 

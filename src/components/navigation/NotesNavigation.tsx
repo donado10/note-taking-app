@@ -35,8 +35,10 @@ const Note = ({ note }: { note: INote }) => {
 };
 
 export const NotesNavigation = ({ data }: { data: INote[] }) => {
-  const pathname = usePathname();
+  const pathname = usePathname().split("/");
   const [notes, setNotes] = useState(data);
+
+  console.log(data);
 
   const filterData = (data: INote[]) => {
     if (pathname && pathname[1] === "home") {
@@ -53,9 +55,11 @@ export const NotesNavigation = ({ data }: { data: INote[] }) => {
 
     return data;
   };
+
   useEffect(() => {
     setNotes(filterData(data));
-  }, [JSON.stringify(pathname)]);
+  }, [JSON.stringify(pathname), JSON.stringify(data)]);
+
   return (
     <ul className="h-full">
       {notes.map((d, i) => (

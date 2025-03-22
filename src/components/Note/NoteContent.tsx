@@ -52,9 +52,9 @@ export default function NoteContent() {
   useEffect(() => {
     const actualNote = notesCtx.data.filter((note_) => note_._id === note._id);
     if (JSON.stringify(note) !== JSON.stringify(actualNote[0])) {
-      notesCtx.editedNote!({ ...note });
+      notesCtx.editedNote && notesCtx.editedNote!({ ...note });
     } else {
-      notesCtx.editedNote!(null);
+      notesCtx.editedNote && notesCtx.editedNote!(null);
     }
 
     return;
@@ -62,8 +62,8 @@ export default function NoteContent() {
 
   return (
     <NoteContext note={{ note: note, editNote: setCurrentNote }}>
-      {Mobile && !Big && <MobileScreen />}
-      {Big && <DesktopScreen />}
+      {Mobile && !Big && Object.keys(note).length > 1 && <MobileScreen />}
+      {Big && note && Object.keys(note).length > 1 && <DesktopScreen />}
     </NoteContext>
   );
 }
