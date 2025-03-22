@@ -9,7 +9,11 @@ import { usePathname } from "next/navigation";
 const Note = ({ note }: { note: INote }) => {
   const pathname = usePathname();
 
-  const path = pathname.split("/")[1];
+  let path = pathname.split("/")[1];
+
+  if (pathname.split("/")[1] === "tags") {
+    path = pathname.split("/")[1] + "/" + pathname.split("/")[2];
+  }
 
   return (
     <>
