@@ -1,21 +1,15 @@
-"use server";
+"use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { headers } from "next/headers";
 import { INote } from "@/models/noteModel";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
-const pathnameHandler = (pathname: string[]) => {
-  const urlGroup = pathname.filter((path) => path != "");
-  return urlGroup.join("/");
-};
+const Note = ({ note }: { note: INote }) => {
+  const pathname = usePathname();
 
-const Note = async ({ note }: { note: INote }) => {
-  const headerList = headers();
-  const pathname = (await headerList).get("x-current-path")?.split("/");
-
-  const path = pathnameHandler([...pathname!]);
+  const path = pathname.split("/")[1];
 
   return (
     <>
@@ -40,10 +34,31 @@ const Note = async ({ note }: { note: INote }) => {
   );
 };
 
-export const NotesNavigation = async ({ data }: { data: INote[] }) => {
+export const NotesNavigation = ({ data }: { data: INote[] }) => {
+  const pathname = usePathname();
+  const [notes, setNotes] = useState(data);
+
+  const filterData = (data: INote[]) => {
+    if (pathname && pathname[1] === "home") {
+      return data;
+    }
+    if (pathname && pathname[1] === "archived") {
+      return data.filter((d) => d.isArchived);
+    }
+    if (pathname && pathname[1] === "tags") {
+      return data.filter((d) =>
+        d.tags.some((tag) => tag.toLowerCase() === pathname[2]),
+      );
+    }
+
+    return data;
+  };
+  useEffect(() => {
+    setNotes(filterData(data));
+  }, [JSON.stringify(pathname)]);
   return (
     <ul className="h-full">
-      {data.map((d, i) => (
+      {notes.map((d, i) => (
         <Note key={i} note={d} />
       ))}
     </ul>

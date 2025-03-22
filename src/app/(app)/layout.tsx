@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SearchNote from "@/components/SearchNote";
 import connectDB from "@/config/database";
+import TagsNavigation from "@/components/navigation/TagsNavigation";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,8 +20,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  tagsNavigation,
 }: Readonly<{
   children: React.ReactNode;
+  tagsNavigation: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -39,7 +42,7 @@ export default async function RootLayout({
         </div>
         <div className="h-screen bg-white xs:hidden xl:flex">
           <aside className="min-h-screen w-1/6 overflow-hidden border-r-[1px] p-2">
-            <DesktopNav />
+            <DesktopNav>{tagsNavigation}</DesktopNav>
           </aside>
           <main className="flex w-5/6 flex-col">
             <header className="flex h-[13%] items-center justify-between border-b-[1px] p-5 px-8">

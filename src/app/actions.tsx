@@ -5,6 +5,7 @@ import connectDB from "@/config/database";
 import { formatDate } from "@/utils/functions";
 import { headers } from "next/headers";
 import noteModel, { INote } from "@/models/noteModel";
+import { unstable_cache } from "next/cache";
 
 export const getData = async () => {
   await connectDB();

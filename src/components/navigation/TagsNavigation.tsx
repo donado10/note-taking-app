@@ -7,21 +7,22 @@ import { getTags } from "@/app/actions";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import IconTag from "@/assets/images/icon-tag.svg";
+import useSWR from "swr";
+import { fetcher } from "@/utils/functions";
 
 const TagsNavigation = () => {
-  const [tagNav, setTagNav] = useState<string[]>([]);
   const location = usePathname();
+  const { data } = useSWR("http://localhost:3000/api/notes/tags", fetcher);
 
-  useEffect(() => {
-    const tagHandler = async () => {
-      const tags = await getTags();
-      setTagNav(Array.from(new Set(tags)));
-    };
-    tagHandler();
-  }, []);
+  if (!data) {
+    return <></>;
+  }
+
+  const tags = data.tags as string[];
+
   return (
     <>
-      {tagNav.map((tag, i) => {
+      {tags.map((tag, i) => {
         return (
           <li key={i}>
             <Link

@@ -5,9 +5,9 @@ import { Suspense } from "react";
 import NotesContext from "@/context/NotesContext";
 import Image from "next/image";
 import IconArchive from "@/assets/images/icon-archive.svg";
+import IconPlus from "@/assets/images/icon-plus.svg";
 import { headers } from "next/headers";
 import { INote } from "@/models/noteModel";
-import IconPlus from "@/assets/images/icon-plus.svg";
 
 export const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,11 +15,7 @@ export const PageLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   const headerList = headers();
   let data: INote[] = [];
   const search = (await headerList).get("x-search-query")?.split("=");
@@ -65,4 +61,6 @@ export default async function RootLayout({
       <div className="h-full xl:hidden">{children}</div>
     </NotesContext>
   );
-}
+};
+
+export default RootLayout;

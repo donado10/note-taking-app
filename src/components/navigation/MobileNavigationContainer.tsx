@@ -1,29 +1,27 @@
-"use server";
+"use client";
 
 import { getSearchData, NotesHandler } from "@/app/actions";
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TitlePage from "../TitlePage";
 import IconNewNote from "@/assets/images/icon-plus.svg";
 import Image from "next/image";
 import SearchNote from "../SearchNote";
-const MobileNavigationContainer = async () => {
-  const data = await NotesHandler();
+import useSWR from "swr";
+import { fetcher } from "@/utils/functions";
+import { INote } from "@/models/noteModel";
+import { usePathname } from "next/navigation";
 
-  return (
-    <>
-      <div className="h-full overflow-y-scroll p-4">
-        <TitlePage />
-        {data && data.length > 0 && <NotesNavigation data={data} />}
-      </div>
-      <button className="absolute bottom-0 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-notes-blue-primary">
-        <span>
-          {" "}
-          <Image src={IconNewNote} alt="" />
-        </span>
-      </button>
-    </>
-  );
+const MobileNavigationContainer = () => {
+  const { data } = useSWR("http://localhost:3000/api/notes", fetcher);
+
+  if (!data) {
+    return;
+  }
+
+  const notes = data.notes;
+
+  return <>{notes && notes.length > 0 && <NotesNavigation data={notes} />}</>;
 };
 
 export const MobileNavigationContainerSearch = async ({

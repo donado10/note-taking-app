@@ -1,7 +1,18 @@
-import { NotesHandler } from "@/app/actions";
-import React, { ReactNode, Suspense } from "react";
+import { getSearchData, NotesHandler } from "@/app/actions";
+import { INote } from "@/models/noteModel";
+import { headers } from "next/headers";
+import React, { ReactNode } from "react";
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  const headerList = headers();
+  let data: INote[] = [];
+  const search = (await headerList).get("x-search-query")?.split("=");
+
+  if (search) {
+    data = await getSearchData(search[1]);
+  } else {
+    data = await NotesHandler();
+  }
   return (
     <>
       <div className="h-full overflow-hidden xl:hidden">{children}</div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Logo from "../Logo";
 import Image from "next/image";
 import IconHome from "@/assets/images/icon-home.svg";
@@ -10,8 +10,6 @@ import { IoIosArrowForward } from "react-icons/io";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getTags } from "@/app/actions";
-import TagsNavigation from "./TagsNavigation";
 
 const linkNav = [
   {
@@ -26,7 +24,7 @@ const linkNav = [
   },
 ];
 
-const DesktopNav = () => {
+const DesktopNav = ({ children }: { children: ReactNode }) => {
   const location = usePathname();
 
   return (
@@ -60,7 +58,7 @@ const DesktopNav = () => {
         <div className="h-4/5">
           <h1 className="mb-4 text-base text-gray-400">Tags</h1>
           <ul className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
-            <TagsNavigation />
+            {children}
           </ul>
         </div>
       </nav>

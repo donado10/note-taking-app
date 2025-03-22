@@ -218,56 +218,27 @@ export const NoteText = ({
   );
 };
 
-export const NoteFooter = () => {
-  const notesCtx = useContext(NotesProvider);
-  const noteCtx = useContext(NoteProvider);
-  const [state, formAction] = useActionState(
-    updateNote.bind(null, {
-      ...noteCtx?.note!,
-      lastEdited: new Date().toISOString(),
-    }),
-    null,
-  );
-
+export const NoteFooter = ({
+  onSave,
+  onCancel,
+}: {
+  onSave: React.Dispatch<React.SetStateAction<boolean>>;
+  onCancel: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <div className="flex items-center gap-4">
       <button
-        disabled={notesCtx.noteEdited === null}
+        disabled={false}
         className="w-fit rounded-lg bg-notes-blue-secondary p-2 text-xs text-white"
         onClick={() => {
-          fetch("/api/notes", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              notes: { ...noteCtx?.note },
-            }),
-          }).then((res) => {
-            if (res.status === 200) {
-              let data = [
-                ...notesCtx.data.filter(
-                  (note) => note._id !== noteCtx?.note?._id,
-                ),
-              ];
-              noteCtx?.editNote!({
-                ...noteCtx.note!,
-                lastEdited: formatDate(new Date().toISOString()),
-              });
-              notesCtx.editNotes!([...data, noteCtx?.note!]);
-              notesCtx.editedNote!(null);
-            }
-          });
+          onSave(true);
         }}
       >
         <span>Save Note</span>
       </button>
       <button
         onClick={() => {
-          notesCtx.editedNote!(null);
-          const actualNote = notesCtx.data.filter(
-            (note_) => note_._id === noteCtx?.note!._id,
-          );
-
-          noteCtx?.editNote!(actualNote[0]);
+          onCancel(true);
         }}
         className="w-fit rounded-lg bg-notes-blue-third p-2 text-xs text-black"
       >
