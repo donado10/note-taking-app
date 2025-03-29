@@ -154,6 +154,7 @@ export const NoteMetadata = ({
         <input
           type="text"
           className="w-full"
+          placeholder="Enter a title..."
           defaultValue={metaData.title}
           onChange={(e) => {
             const title = e.currentTarget.value;
@@ -166,10 +167,12 @@ export const NoteMetadata = ({
           <Image src={IconTags} alt="" />
           <span>Tags</span>
         </div>
-        <span>
+        <span className="flex-1">
           <input
             type="text"
             defaultValue={metaData.tags}
+            className="w-full"
+            placeholder="Add tags separated by commas (e.g. Work, Planning)"
             onChange={(e) => {
               const value = e.currentTarget.value.replace(/\s+/g, "");
               onChange({ ...metaData, tags: value });
@@ -182,7 +185,7 @@ export const NoteMetadata = ({
           <Image src={IconClock} alt="" />
           <span>Last edited</span>
         </div>
-        <span>{metaData.lastEdited}</span>
+        <span className="flex-1">{metaData.lastEdited}</span>
       </div>
     </div>
   );
@@ -206,6 +209,7 @@ export const NoteText = ({
       <textarea
         className="h-full w-full outline-none"
         value={contentValue}
+        placeholder="Start typing your note here…"
         name=""
         id=""
         onChange={(e) => {

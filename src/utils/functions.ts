@@ -23,5 +23,8 @@ export function convertToISODate(dateString: string): string {
 
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+export function getISODate(): string {
+  return new Date().toISOString();
+}
 // Example usage:
 //console.log(convertToISODate("05 Oct 2024")); // Output: "2024-10-05"

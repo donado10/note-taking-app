@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface INote {
-  _id: mongoose.Schema.Types.ObjectId;
+  _id?: mongoose.Schema.Types.ObjectId;
   title: string;
   tags: string[];
   content: string;
@@ -10,7 +10,7 @@ export interface INote {
 }
 
 export const noteSchema = new mongoose.Schema<INote>({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: { type: mongoose.Types.ObjectId },
   title: {
     type: String,
     required: true,
