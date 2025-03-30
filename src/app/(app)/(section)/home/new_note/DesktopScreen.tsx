@@ -30,6 +30,9 @@ const DesktopScreen = (props: Props) => {
       return;
     }
     const newNoteHandler = async () => {
+      if (!saveTrigger) {
+        return;
+      }
       const new_note: INote = {
         lastEdited: getISODate(),
         title: noteMetadata?.title ?? "",

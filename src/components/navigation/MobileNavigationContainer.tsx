@@ -2,7 +2,7 @@
 
 import { getSearchData, NotesHandler } from "@/app/actions";
 import { NotesNavigation } from "@/components/navigation/NotesNavigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TitlePage from "../TitlePage";
 import IconNewNote from "@/assets/images/icon-plus.svg";
 import Image from "next/image";
@@ -13,9 +13,13 @@ import { INote } from "@/models/noteModel";
 import { redirect, usePathname } from "next/navigation";
 import IconPlus from "@/assets/images/icon-plus.svg";
 import useMediaQuery, { EMediaQuery } from "@/hooks/useMediaQuery";
+import { NotesProvider } from "@/context/NotesContext";
 
 const MobileNavigationContainer = () => {
-  const { data } = useSWR("http://localhost:3000/api/notes", fetcher);
+  const notesCtx = useContext(NotesProvider);
+  const { data } = useSWR("http://localhost:3000/api/notes", fetcher, {
+    suspense: true,
+  });
   const pathname = usePathname();
   const Big = useMediaQuery(EMediaQuery.BIG);
 
@@ -24,6 +28,10 @@ const MobileNavigationContainer = () => {
   }
 
   const notes = data.notes;
+
+  useEffect(() => {
+    notesCtx.editNotes!([...notes]);
+  }, []);
 
   return (
     <div className="h-full overflow-scroll">

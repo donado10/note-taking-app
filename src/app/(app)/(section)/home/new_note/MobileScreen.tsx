@@ -9,8 +9,10 @@ import {
 } from "@/components/Note/NoteContentSection";
 import { INote } from "@/models/noteModel";
 import { getISODate } from "@/utils/functions";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { mutate } from "swr";
+import { redirect } from "next/navigation";
+import NotesContext, { NotesProvider } from "@/context/NotesContext";
 
 type Props = {};
 
@@ -20,6 +22,7 @@ const MobileScreen = (props: Props) => {
     title: "",
     lastEdited: "",
   });
+  const notesCtx = useContext(NotesProvider);
 
   const [noteContent, setNoteContent] = useState<string>("");
 
@@ -27,6 +30,9 @@ const MobileScreen = (props: Props) => {
   const [cancelTrigger, setCancelTrigger] = useState(false);
 
   useEffect(() => {
+    if (!saveTrigger) {
+      return;
+    }
     if (!noteMetadata?.tags || !noteMetadata.title) {
       return;
     }
@@ -44,13 +50,14 @@ const MobileScreen = (props: Props) => {
         body: JSON.stringify({ notes: new_note }),
       });
 
+      console.log(response.status);
       if (response.status === 200) {
-        // router.push("/home");
-        // router.refresh();
         await mutate("http://localhost:3000/api/notes/tags");
         await mutate("http://localhost:3000/api/notes");
+
+        setSaveTrigger(false);
+        redirect("/");
       }
-      setSaveTrigger(false);
     };
     newNoteHandler();
   }, [saveTrigger]);
