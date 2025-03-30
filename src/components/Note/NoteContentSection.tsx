@@ -90,17 +90,14 @@ export const NoteHeader = ({
     </div>
   );
 };
-export const NoteHeaderCreateNote = () => {
+export const NoteHeaderCreateNote = ({
+  onSave,
+  onCancel,
+}: {
+  onSave: React.Dispatch<React.SetStateAction<boolean>>;
+  onCancel: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
-  const notesCtx = useContext(NotesProvider);
-  const noteCtx = useContext(NoteProvider);
-  const [state, formAction] = useActionState(
-    updateNote.bind(null, {
-      ...noteCtx?.note!,
-      lastEdited: new Date().toISOString(),
-    }),
-    null,
-  );
 
   return (
     <div className="flex items-center justify-between border-b-[1px] pb-4">
@@ -117,37 +114,16 @@ export const NoteHeaderCreateNote = () => {
         <span>Go Back</span>
       </button>
       <div className="flex items-center gap-8 text-gray-500">
-        <button
-          onClick={() => {
-            notesCtx.editedNote!(null);
-            const actualNote = notesCtx.data.filter(
-              (note_) => note_._id === noteCtx?.note?._id,
-            );
-            noteCtx?.editNote!(actualNote[0]);
-          }}
-        >
+        <button onClick={() => onCancel(true)}>
           <span>Cancel</span>
         </button>
-        <form
-          action={formAction}
+        <button
           onClick={() => {
-            let data = [
-              ...notesCtx.data.filter(
-                (note) => note._id !== noteCtx?.note?._id,
-              ),
-            ];
-            noteCtx?.editNote!({
-              ...noteCtx.note!,
-              lastEdited: new Date().toISOString(),
-            });
-            notesCtx.editNotes!([...data, noteCtx?.note!]);
-            notesCtx.editedNote!(null);
+            onSave(true);
           }}
         >
-          <button disabled={notesCtx.noteEdited === null}>
-            <span className="text-notes-blue-secondary">Save Note</span>
-          </button>
-        </form>
+          <span className="text-notes-blue-secondary">Save Note</span>
+        </button>
       </div>
     </div>
   );

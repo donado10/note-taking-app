@@ -54,6 +54,8 @@ export async function POST(request: Request) {
     title: note.title.trim(),
   });
 
+  console.log(isNoteExist);
+
   if (note && !isNoteExist) {
     const response = await noteModel.create({
       _id: new mongoose.Types.ObjectId(),

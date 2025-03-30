@@ -31,27 +31,8 @@ const MobileScreen = () => {
 
   const [saveTrigger, setSaveTrigger] = useState(false);
   const [cancelTrigger, setCancelTrigger] = useState(false);
-  const router = useRouter();
 
-  const cancelHandler = () => {
-    const new_note: INote = {
-      ...note,
-      lastEdited: noteMetadata?.lastEdited ?? "",
-      title: noteMetadata?.title ?? "",
-      tags: noteMetadata?.tags.split(",") ?? [],
-      content: noteContent ?? "",
-    };
-
-    const last_note = { ...note };
-
-    setNoteMetadata({
-      title: note?.title ?? "",
-      tags: note?.tags.join(",") ?? "",
-      lastEdited: note?.lastEdited ?? "",
-    });
-
-    setNoteContent(note.content ?? "");
-  };
+  const cancelHandler = () => {};
 
   useEffect(() => {
     if (saveTrigger) {
@@ -62,15 +43,21 @@ const MobileScreen = () => {
         tags: noteMetadata?.tags.split(",") ?? [],
         content: noteContent ?? "",
       };
-      saveHandler(new_note).then((res) => {
-        if (res) {
-          notesCtx.editNotes!([
-            ...notesCtx.data.filter((note) => note._id !== new_note._id),
-            new_note,
-          ]);
-        }
-        setSaveTrigger(false);
-      });
+      saveHandler(new_note)
+        .then((res) => {
+          if (res) {
+            notesCtx.editNotes!([
+              ...notesCtx.data.filter((note) => note._id !== new_note._id),
+              new_note,
+            ]);
+          }
+          setSaveTrigger(false);
+          return;
+        })
+        .catch(() => {
+          setSaveTrigger(false);
+          return;
+        });
 
       return;
     }

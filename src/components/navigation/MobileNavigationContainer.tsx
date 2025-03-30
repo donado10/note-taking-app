@@ -46,7 +46,10 @@ const MobileNavigationContainer = () => {
         </div>
       )}
       {notes && notes.length > 0 && <NotesNavigation data={notes} />}
-      <button className="absolute bottom-0 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-notes-blue-primary">
+      <button
+        onClick={() => redirect("/home/new_note")}
+        className="absolute bottom-0 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-notes-blue-primary"
+      >
         <span>
           {" "}
           <Image src={IconNewNote} alt="" />
