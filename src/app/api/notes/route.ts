@@ -35,8 +35,6 @@ export async function DELETE(request: Request) {
 
   const note_id = req.note_id;
 
-  console.log(note_id);
-
   if (note_id) {
     const response = await noteModel.findByIdAndDelete(String(note_id));
 
