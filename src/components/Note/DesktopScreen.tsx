@@ -68,16 +68,16 @@ const DesktopScreen = () => {
         tags: noteMetadata?.tags.split(",") ?? [],
         content: noteContent ?? "",
       };
-      saveHandler(new_note).then(
-        (res) =>
-          res &&
+      saveHandler(new_note).then((res) => {
+        if (res) {
           notesCtx.editNotes!([
             ...notesCtx.data.filter((note) => note._id !== new_note._id),
             new_note,
-          ]),
-      );
+          ]);
+        }
+        setSaveTrigger(false);
+      });
 
-      setSaveTrigger(false);
       return;
     }
 

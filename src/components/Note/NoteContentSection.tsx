@@ -21,6 +21,7 @@ import { NotesProvider } from "@/context/NotesContext";
 import { updateNote } from "@/app/actions";
 import { NotesNavigation } from "../navigation/NotesNavigation";
 import { revalidatePath } from "next/cache";
+import IconRestore from "@/assets/images/icon-restore.svg";
 
 export interface INoteMetadata {
   tags: string;
@@ -31,9 +32,17 @@ export interface INoteMetadata {
 export const NoteHeader = ({
   onSave,
   onCancel,
+  onArchive,
+  onDelete,
+  onRestore,
+  isArchived,
 }: {
+  isArchived: boolean;
   onSave: React.Dispatch<React.SetStateAction<boolean>>;
   onCancel: React.Dispatch<React.SetStateAction<boolean>>;
+  onArchive: () => void;
+  onRestore: () => void;
+  onDelete: () => void;
 }) => {
   const router = useRouter();
 
@@ -52,16 +61,25 @@ export const NoteHeader = ({
         <span>Go Back</span>
       </button>
       <div className="flex items-center gap-8 text-gray-500">
-        <button className="">
+        <button onClick={onDelete} className="">
           <span>
             <Image src={IconDelete} alt="" />
           </span>
         </button>
-        <button>
-          <span>
-            <Image src={IconArchive} alt="" />
-          </span>
-        </button>
+        {!isArchived && (
+          <button onClick={onArchive}>
+            <span>
+              <Image src={IconArchive} alt="" />
+            </span>
+          </button>
+        )}
+        {isArchived && (
+          <button onClick={onRestore}>
+            <span>
+              <Image src={IconRestore} alt="" />
+            </span>
+          </button>
+        )}
         <button onClick={onCancel.bind(null, true)}>
           <span>Cancel</span>
         </button>

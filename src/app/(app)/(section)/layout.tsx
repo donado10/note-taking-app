@@ -23,9 +23,9 @@ export default async function RootLayout({
   }
   return (
     <>
-      <div className="h-full overflow-hidden xl:hidden">{children}</div>
-      <div className="h-full overflow-y-scroll xs:hidden xl:block">
-        <NotesContext value={data}>
+      <NotesContext value={data}>
+        <div className="h-full overflow-scroll xl:hidden">{children}</div>
+        <div className="h-full overflow-y-scroll xs:hidden xl:block">
           <div className="h-full flex-row xs:hidden xl:flex">
             <div className="h-full w-1/4 overflow-y-scroll border-r-[1px] p-4">
               <div>{notesNavigation}</div>
@@ -33,8 +33,8 @@ export default async function RootLayout({
             <div className="h-full w-full">{children}</div>
           </div>
           <div className="h-full xl:hidden">{children}</div>
-        </NotesContext>
-      </div>
+        </div>
+      </NotesContext>
     </>
   );
 }

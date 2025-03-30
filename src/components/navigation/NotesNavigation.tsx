@@ -5,6 +5,7 @@ import Link from "next/link";
 import { INote } from "@/models/noteModel";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import IconNewNote from "@/assets/images/icon-plus.svg";
 
 const Note = ({ note }: { note: INote }) => {
   const pathname = usePathname();
